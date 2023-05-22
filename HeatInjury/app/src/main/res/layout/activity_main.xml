@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="查看熱指數"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/hi_Time"
+        android:layout_width="125dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="131dp"
+        android:ems="10"
+        android:hint="輸入時間"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/hi_HeatInjuryIndex"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/hi_HeatInjuryIndex"
+        android:layout_width="125dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="輸入熱指數"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="188dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.738"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.311">
+
+        <Button
+            android:id="@+id/button_Insert"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="99dp"
+            android:layout_marginEnd="12dp"
+            android:text="新增資料" />
+
+        <Button
+            android:id="@+id/button_Upgrade"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="99dp"
+            android:layout_marginEnd="12dp"
+            android:text="更改資料" />
+
+        <Button
+            android:id="@+id/button_Delete"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="99dp"
+            android:layout_marginEnd="12dp"
+            android:text="刪除資料" />
+
+        <Button
+            android:id="@+id/button_Select"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="99dp"
+            android:layout_marginEnd="12dp"
+            android:text="更新資料畫面" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="388dp"
+        android:layout_height="181dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.719"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.767">
+
+    </ListView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
