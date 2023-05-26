@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.*
+import org.json.JSONObject
 import org.w3c.dom.Text
 import java.io.IOException
 
@@ -17,7 +18,7 @@ class HeatInjury : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_heat_injury)
         val constraintLayout1 = findViewById<ConstraintLayout>(R.id.mainLayout1)
-        constraintLayout1.setBackgroundResource(R.drawable.goose)
+        constraintLayout1.setBackgroundResource(R.drawable.night)
 
         //回到主頁面
         val button = findViewById<Button>(R.id.button)
@@ -38,43 +39,52 @@ class HeatInjury : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
+
                 if(response.isSuccessful){
                     val responseBody = response.body?.string()
                     println(responseBody)
+                    val jsonObject = JSONObject(responseBody)
 
-                    //get到熱傷害資訊後資訊後
-                    //這邊抓資料的問題要問老師
-                    val gson = Gson()
-                    val jsonObject = gson.fromJson(responseBody, JsonObject::class.java)
+                    val RecordObject = jsonObject.getJSONObject("records")
+                    val LocationsArray = RecordObject.getJSONArray("Locations")
+                    val LocationArray = LocationsArray.getJSONObject(0).getJSONArray("Location")
+                    var i = 0
 
-                    val CountyName = jsonObject
-                        .getAsJsonObject("record")
-                        .getAsJsonArray("Locations")
-                        .asJsonObject
-                        .get("CountyName")
-                        .asString
-                    println("縣市:${CountyName}")
+                    //將彰化市的陣列抓出來
+                    while( i <= 26) {
+                        var TownName = LocationArray.getJSONObject(i).get("TownName").toString()
+                        if (TownName == "彰化市"){
+                            runOnUiThread{
+                                findViewById<TextView>(R.id.textView2).text = "彰化縣，$TownName 的熱指數"
+                            }
 
-                    val TimeArray = jsonObject
-                        .getAsJsonObject("record")
-                        .getAsJsonObject("Locations")
-                        .getAsJsonArray("Location")[6]
-                        .asJsonObject
-                        .getAsJsonObject("Time")
-                        .get("IssueTime")
-                        .asString
-                    println("時間:${TimeArray}")
+                        val TimeArray = LocationArray.getJSONObject(i).getJSONArray("Time")
 
-                    //顯示在TEXTVIEW內
-                    runOnUiThread{
-                        findViewById<TextView>(R.id.textView).text = responseBody
-                        findViewById<TextView>(R.id.textView2).text = TimeArray
+                        //將時間、熱指數以及提示印出來
+                        for(j in 0 until 6){
+
+                            val textViewId = "Time$j"
+                            var IssueTime = TimeArray.getJSONObject(j).get("IssueTime").toString()
+                            val WeatherElementsArray = TimeArray.getJSONObject(j).getJSONObject("WeatherElements")
+                            val HeatInjuryIndex = WeatherElementsArray.get("HeatInjuryIndex").toString()
+                            val HeatInjuryWarning = WeatherElementsArray.get("HeatInjuryWarning").toString()
+                            runOnUiThread{
+                                val resourceId = resources.getIdentifier(textViewId, "id", packageName)
+                                val textView = findViewById<TextView>(resourceId)
+                                textView.text = "時間:$IssueTime  熱指數:$HeatInjuryIndex  $HeatInjuryWarning"
+                                }
+                            }
+                            break
+                        }
+                        else {
+                            i++
+                        }
                     }
                 }
                 else{
                     println("伺服器請求錯誤!")
                     runOnUiThread{
-                        findViewById<TextView>(R.id.textView).text = "資料錯誤"
+                        findViewById<TextView>(R.id.textView2).text = "資料錯誤"
                     }
                 }
             }
